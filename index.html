@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наш с тобой сайтик 💖</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="test-bg">
+    <!-- Анимированные сердечки -->
+    <div class="hearts-container" id="heartsContainer">
+        <div class="heart-float">❤️</div>
+        <div class="heart-float">💗</div>
+        <div class="heart-float">💖</div>
+        <div class="heart-float">💕</div>
+        <div class="heart-float">💞</div>
+        <div class="heart-float">💓</div>
+        <div class="heart-float">💝</div>
+        <div class="heart-float">💘</div>
+    </div>
+
+    <!-- Тест -->
+    <div id="quiz" class="card quiz-card">
+        <div class="quiz-header">
+            <h2><i class="fas fa-heart"></i> Проверь наши отношения</h2>
+            <p class="quiz-subtitle">Ответь на 3 вопроса о нас</p>
+        </div>
+        
+        <div class="quiz-questions">
+            <div class="question-item">
+                <p class="question-text">1. Когда мы начали встречаться?</p>
+                <input type="text" id="answer1" placeholder="Введите дату (ДД.ММ.ГГГГ)" />
+                <div class="question-hint">Формат: ДД.ММ.ГГГГ</div>
+            </div>
+            
+            <div class="question-item">
+                <p class="question-text">2. Какого числа мы с тобой ходили в лофт?</p>
+                <input type="text" id="answer2" placeholder="Введите дату" />
+            </div>
+            
+            <div class="question-item">
+                <p class="question-text">3. Сколько дней мы уже вместе?</p>
+                <input type="text" id="answer3" placeholder="Введите количество дней" />
+                <div class="question-hint" id="daysHint">Подсказка: сегодня это <span id="currentDays">0</span> дней</div>
+            </div>
+        </div>
+        
+        <button type="button" class="btn-primary" onclick="checkAnswers()">
+            <i class="fas fa-check"></i> Проверить ответы
+        </button>
+    </div>
+
+    <!-- Повторная попытка -->
+    <div id="retry" class="card retry-card" style="display: none;">
+        <div class="retry-header">
+            <h2><i class="fas fa-redo"></i> Ой, не совсем верно...</h2>
+            <p>Но у тебя есть еще шанс! Введи кодовое слово:</p>
+        </div>
+        
+        <div class="retry-content">
+            <input type="text" id="codeword" placeholder="Введите кодовое слово" />
+            <button type="button" class="btn-secondary" onclick="tryAgain()">
+                <i class="fas fa-unlock"></i> Попробовать еще
+            </button>
+            
+            <div class="attempts-info">
+                <p><i class="fas fa-heart-broken"></i> Осталось попыток: <span id="attemptsLeft" class="attempts-count">5</span></p>
+                <p class="attempts-hint">Доступные слова: alpha, bravo, charlie, delta, echo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок с сердечком -->
+    <div id="heart-block" class="card heart-card" style="display: none;">
+        <div class="heart-content">
+            <div class="heart-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="heart-text">
+                <h2>Ты прошла тест!</h2>
+                <p>Теперь нажми на сердце, чтобы погрузиться в мир наших отношений</p>
+            </div>
+            
+            <button id="heart-button" onclick="goToMain()">
+                <i class="fas fa-heart"></i>
+                <span class="pulse-text">Начать путешествие</span>
+            </button>
+            
+            <div class="heart-instruction">
+                <i class="fas fa-info-circle"></i> Просто нажми на большое сердце в центре
+            </div>
+        </div>
+    </div>
+
+    <!-- Главный блок -->
+    <div id="main-block" class="main-block" style="display: none;">
+        <!-- Счетчик отношений -->
+        <div id="relationship-counter" class="relationship-counter">
+            <div class="counter-content">
+                <i class="fas fa-heart-circle-check"></i>
+                <div class="counter-text">
+                    <span class="counter-title">Наши отношения</span>
+                    <span id="counter-time" class="counter-time">0 дней 0 часов 0 минут</span>
+                </div>
+            </div>
+            <button class="counter-settings" onclick="toggleCounter()">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+
+        <!-- Главный контент -->
+        <div class="main-content">
+            <div class="welcome-section">
+                <h1 class="welcome-title">
+                    <i class="fas fa-heart"></i> Привет, моя любимая!
+                </h1>
+                <p class="welcome-subtitle">Это наше личное пространство, где хранятся все наши моменты</p>
+            </div>
+
+            <!-- Паутина меню -->
+            <div class="web-nav-container">
+                <div class="web-nav">
+                    <svg class="spider-lines" width="400" height="400">
+                        <line x1="200" y1="200" x2="200" y2="60"/>
+                        <line x1="200" y1="200" x2="340" y2="200"/>
+                        <line x1="200" y1="200" x2="200" y2="340"/>
+                        <line x1="200" y1="200" x2="60" y2="200"/>
+                        <line x1="200" y1="200" x2="130" y2="130"/>
+                        <line x1="200" y1="200" x2="270" y2="130"/>
+                        <line x1="200" y1="200" x2="270" y2="270"/>
+                        <line x1="200" y1="200" x2="130" y2="270"/>
+                    </svg>
+                    
+                    <!-- Центральная кнопка "Мы" -->
+                    <button id="mainMenuBtn" class="main-web-btn">
+                        <i class="fas fa-heart"></i>
+                        <span class="btn-label">Мы</span>
+                    </button>
+                    
+                    <!-- Кнопки вокруг центральной -->
+                    <div class="web-links" id="webLinks">
+                        <button class="web-btn" data-tooltip="Счётчик" onclick="toggleCounter()" style="top:30px; left:160px;">
+                            <i class="fas fa-calendar-heart"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="О нас" onclick="showAboutMenu()" style="top:160px; left:310px;">
+                            <i class="fas fa-user-friends"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Мини-игра" onclick="openGame()" style="top:290px; left:160px;">
+                            <i class="fas fa-gamepad"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Воспоминания" onclick="showMemories()" style="top:160px; left:10px;">
+                            <i class="fas fa-camera-retro"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Галерея" onclick="openGallery()" style="top:80px; left:260px;">
+                            <i class="fas fa-images"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Цитаты" onclick="openQuotes()" style="top:80px; left:60px;">
+                            <i class="fas fa-quote-right"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Секреты" onclick="showSecrets()" style="top:240px; left:260px;">
+                            <i class="fas fa-lock-open"></i>
+                        </button>
+                        <button class="web-btn" data-tooltip="Настройки" onclick="openSettings()" style="top:240px; left:60px;">
+                            <i class="fas fa-sliders-h"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="web-instruction">
+                    <i class="fas fa-hand-point-up"></i> Нажми на центральное сердце, чтобы открыть меню
+                </div>
+            </div>
+
+            <!-- Быстрые действия -->
+            <div class="quick-actions">
+                <h3><i class="fas fa-bolt"></i> Быстрый доступ</h3>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="showMemories()">
+                        <i class="fas fa-book-open"></i>
+                        <span>Воспоминания</span>
+                    </button>
+                    <button class="action-btn" onclick="openGame()">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <span>Играть</span>
+                    </button>
+                    <button class="action-btn" onclick="showAboutMenu()">
+                        <i class="fas fa-heart"></i>
+                        <span>О нас</span>
+                    </button>
+                    <button class="action-btn" onclick="showSurprise()">
+                        <i class="fas fa-gift"></i>
+                        <span>Сюрприз</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛЬНЫЕ ОКНА ===== -->
+    
+    <!-- О нас -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-friends"></i> О нас</h3>
+                <button class="close-modal" onclick="closeAboutModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profiles-container">
+                    <!-- Профиль Егора -->
+                    <div class="profile-card" onclick="editProfile('egor')">
+                        <div class="profile-avatar" style="background: linear-gradient(135deg, #4A90E2, #357ABD);">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Егор</h4>
+                        <p class="profile-desc" id="egorDesc">Нажми, чтобы изменить профиль</p>
+                        <div class="love-meter">
+                            <div class="love-label">
+                                <i class="fas fa-heart"></i>
+                                <span>Уровень любви:</span>
+                                <span id="egorLovePercent" class="love-percent">100%</span>
+                            </div>
+                            <input type="range" id="egorLoveLevel" min="0" max="100" value="100" 
+                                   class="love-slider" oninput="updateLoveLevel('egor', this.value)">
+                            <div class="love-progress">
+                                <div id="egorLoveProgress" class="love-progress-bar" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Профиль Ульяны -->
+                    <div class="profile-card" onclick="editProfile('ulyana')">
+                        <div class="profile-avatar" style="background: linear-gradient(135deg, #FF6B8B, #E91E63);">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Ульяна</h4>
+                        <p class="profile-desc" id="ulyanaDesc">Нажми, чтобы изменить профиль</p>
+                        <div class="love-meter">
+                            <div class="love-label">
+                                <i class="fas fa-heart"></i>
+                                <span>Уровень любви:</span>
+                                <span id="ulyanaLovePercent" class="love-percent">100%</span>
+                            </div>
+                            <input type="range" id="ulyanaLoveLevel" min="0" max="100" value="100" 
+                                   class="love-slider" oninput="updateLoveLevel('ulyana', this.value)">
+                            <div class="love-progress">
+                                <div id="ulyanaLoveProgress" class="love-progress-bar" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="our-story">
+                    <h4><i class="fas fa-history"></i> Наша история</h4>
+                    <textarea id="ourStory" placeholder="Расскажи нашу историю здесь... (Как познакомились, первые свидания, важные моменты...)"></textarea>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <div class="stat-number" id="totalDays">0</div>
+                        <div class="stat-label">дней вместе</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-camera"></i>
+                        <div class="stat-number" id="totalMemories">0</div>
+                        <div class="stat-label">воспоминаний</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-photo-video"></i>
+                        <div class="stat-number" id="totalPhotos">0</div>
+                        <div class="stat-label">фотографий</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-gamepad"></i>
+                        <div class="stat-number" id="totalGames">0</div>
+                        <div class="stat-label">сыграно игр</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="saveOurStory()">
+                    <i class="fas fa-save"></i> Сохранить всё
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Воспоминания -->
+    <div id="memoriesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-camera-retro"></i> Наши воспоминания</h3>
+                <button class="close-modal" onclick="closeMemoriesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn-secondary" onclick="addMemory()" style="margin-bottom: 20px;">
+                    <i class="fas fa-plus"></i> Добавить воспоминание
+                </button>
+                <div id="memoriesList" class="memories-list">
+                    <!-- Воспоминания будут здесь -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования воспоминания -->
+    <div id="addMemoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Новое воспоминание</h3>
+                <button class="close-modal" onclick="closeAddMemoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="memory-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Дата</label>
+                            <input type="date" id="memoryDate" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-heading"></i> Название</label>
+                            <input type="text" id="memoryTitle" placeholder="Например: Первое свидание" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Описание</label>
+                        <textarea id="memoryDescription" placeholder="Опиши, что произошло в этот день..." 
+                                  class="form-input" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-images"></i> Фотографии (максимум 6)</label>
+                        <div id="photosPreview" class="photos-preview"></div>
+                        <div id="photoUploadArea" class="photo-upload-area">
+                            <div class="upload-slot" onclick="document.getElementById('memoryPhotoInput').click()">
+                                <i class="fas fa-plus"></i>
+                                <span>Добавить фото</span>
+                            </div>
+                        </div>
+                        <input type="file" id="memoryPhotoInput" accept="image/*" multiple 
+                               style="display: none;" onchange="handleMemoryPhotoUpload(event)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-palette"></i> Цвет воспоминания</label>
+                        <div class="color-picker">
+                            <div class="color-option selected" data-color="#ff9a9e" onclick="selectMemoryColor('#ff9a9e')" style="background: #ff9a9e;"></div>
+                            <div class="color-option" data-color="#a1c4fd" onclick="selectMemoryColor('#a1c4fd')" style="background: #a1c4fd;"></div>
+                            <div class="color-option" data-color="#c2e9fb" onclick="selectMemoryColor('#c2e9fb')" style="background: #c2e9fb;"></div>
+                            <div class="color-option" data-color="#d4fc79" onclick="selectMemoryColor('#d4fc79')" style="background: #d4fc79;"></div>
+                            <div class="color-option" data-color="#fad0c4" onclick="selectMemoryColor('#fad0c4')" style="background: #fad0c4;"></div>
+                            <div class="color-option" data-color="#ffecd2" onclick="selectMemoryColor('#ffecd2')" style="background: #ffecd2;"></div>
+                            <div class="color-option" data-color="#e91e63" onclick="selectMemoryColor('#e91e63')" style="background: #e91e63;"></div>
+                            <div class="color-option" data-color="#9c27b0" onclick="selectMemoryColor('#9c27b0')" style="background: #9c27b0;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="saveMemory()">
+                    <i class="fas fa-save"></i> Сохранить воспоминание
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка для редактирования профиля -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 id="profileModalTitle">Редактировать профиль</h3>
+                <button class="close-modal" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Имя</label>
+                        <input type="text" id="profileName" placeholder="Имя" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-birthday-cake"></i> Возраст</label>
+                        <input type="number" id="profileAge" placeholder="Возраст" class="form-input" min="1" max="120">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-heart"></i> Уровень влюблённости</label>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                            <input type="range" id="profileLoveLevel" min="0" max="100" value="100" 
+                                   class="love-slider" style="flex: 1;"
+                                   oninput="updateProfileLoveLevel(this.value)">
+                            <div style="
+                                background: var(--gradient);
+                                color: white;
+                                padding: 8px 15px;
+                                border-radius: 20px;
+                                font-weight: bold;
+                                min-width: 70px;
+                                text-align: center;
+                                box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+                            ">
+                                <span id="profileLovePercent">100%</span>
+                            </div>
+                        </div>
+                        <div style="
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 5px;
+                            color: var(--gray);
+                            font-size: 12px;
+                        ">
+                            <span>💔</span>
+                            <span>😊</span>
+                            <span>🥰</span>
+                            <span>💖</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-user-circle"></i> О себе</label>
+                        <textarea id="profileBio" placeholder="Расскажи о себе..." 
+                                  class="form-input" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-gamepad"></i> Хобби и увлечения</label>
+                        <textarea id="profileHobbies" placeholder="Чем увлекаешься?" 
+                                  class="form-input" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex; gap: 15px;">
+                <button class="btn-secondary" onclick="closeProfileModal()">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
+                <button class="btn-primary" onclick="saveProfile()">
+                    <i class="fas fa-save"></i> Сохранить изменения
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем скрипты -->
+    <script src="script.js"></script>
+    <script src="game.js"></script>
+    <script src="memories.js"></script>
+    
+    <!-- Дебаг информация -->
+    <div class="debug-info" id="debugInfo" style="display: none; position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); color: white; padding: 10px; border-radius: 5px; z-index: 9999; font-size: 12px;">
+        Статус: Загружено
+    </div>
+    <script>
+    // Проверяем загрузку игровых скриптов
+    setTimeout(() => {
+        console.log('Проверка функций игры:');
+        console.log('- showGameModal:', typeof showGameModal);
+        console.log('- initGame:', typeof initGame);
+        console.log('- openGame:', typeof openGame);
+        
+        // Если openGame не определена, создаем ее
+        if (typeof openGame === 'undefined' && typeof showGameModal !== 'undefined') {
+            console.log('Создаем функцию openGame');
+            window.openGame = function() {
+                showGameModal();
+            };
+        }
+        
+        // Добавляем обработчик для кнопки "Мини-игра" в паутине
+        const gameBtn = document.querySelector('[onclick="openGame()"]');
+        if (gameBtn) {
+            console.log('Кнопка игры найдена:', gameBtn);
+            gameBtn.onclick = function() {
+                console.log('Нажата кнопка игры');
+                if (typeof openGame === 'function') {
+                    openGame();
+                } else if (typeof showGameModal === 'function') {
+                    showGameModal();
+                } else {
+                    alert('Игра загружается... Пожалуйста, подождите.');
+                }
+            };
+        }
+    }, 1000);
+</script>
+
+    <script>
+        // Функция для обновления уровня любви на главной странице "О нас"
+        function updateLoveLevel(person, value) {
+            // Обновляем процент
+            const percentElement = document.getElementById(person + 'LovePercent');
+            if (percentElement) {
+                percentElement.textContent = value + '%';
+            }
+            
+            // Обновляем прогресс бар
+            const progressBar = document.getElementById(person + 'LoveProgress');
+            if (progressBar) {
+                progressBar.style.width = value + '%';
+            }
+            
+            // Обновляем значение ползунка
+            const slider = document.getElementById(person + 'LoveLevel');
+            if (slider) {
+                slider.value = value;
+            }
+            
+            // Сохраняем в localStorage
+            localStorage.setItem(person + 'LoveLevel', value);
+        }
+        
+        // Функция для обновления уровня любви в модальном окне редактирования профиля
+        function updateProfileLoveLevel(value) {
+            const percentElement = document.getElementById('profileLovePercent');
+            if (percentElement) {
+                percentElement.textContent = value + '%';
+            }
+        }
+        
+        // Функция для загрузки сохраненных значений при открытии страницы
+        function loadLoveLevels() {
+            // Для Егора
+            const egorValue = localStorage.getItem('egorLoveLevel') || 100;
+            updateLoveLevel('egor', egorValue);
+            
+            // Для Ульяны
+            const ulyanaValue = localStorage.getItem('ulyanaLoveLevel') || 100;
+            updateLoveLevel('ulyana', ulyanaValue);
+        }
+        
+        // Проверка загрузки скриптов
+        setTimeout(() => {
+            const debugInfo = document.getElementById('debugInfo');
+            if (debugInfo) {
+                debugInfo.style.display = 'block';
+                debugInfo.innerHTML = `
+                    Загружено: <br>
+                    - script.js: ${typeof checkAnswers !== 'undefined' ? '✓' : '✗'} <br>
+                    - game.js: ${typeof initGame !== 'undefined' ? '✓' : '✗'} <br>
+                    - Кнопка "Мы": ${document.getElementById('mainMenuBtn') ? '✓' : '✗'} <br>
+                    - Дней вместе: ${getDaysTogether ? getDaysTogether() : 'N/A'}
+                `;
+            }
+            
+            // Загружаем сохраненные уровни любви
+            loadLoveLevels();
+            
+            // Логируем наличие элементов
+            console.log('Элементы:', {
+                mainMenuBtn: document.getElementById('mainMenuBtn'),
+                webLinks: document.getElementById('webLinks'),
+                gameButton: document.querySelector('[onclick="openGame()"]'),
+                checkAnswersButton: document.querySelector('[onclick="checkAnswers()"]'),
+                currentDaysSpan: document.getElementById('currentDays'),
+                egorLoveSlider: document.getElementById('egorLoveLevel'),
+                ulyanaLoveSlider: document.getElementById('ulyanaLoveLevel')
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
